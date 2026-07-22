@@ -46,9 +46,9 @@
 - **JavaScript (ES6)** – Music playback, search functionality, playlist management, and UI interactions
 
 ---
+## Music Files
 
-
-
+Music files are not included in this repository due to copyright and repository size limitations.
 
 ---
 
