@@ -1,0 +1,12 @@
+{
+  "name": "spotify-clone",
+  "version": "1.0.0",
+  "description": "Full-featured Spotify clone music player web application with local audio streaming.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["spotify", "music-player", "audio", "web-app"],
+  "author": "",
+  "license": "ISC"
+}

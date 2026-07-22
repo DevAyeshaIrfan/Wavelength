@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wavelength — Spotify Clone Music Player</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="30" height="30">
+          <circle cx="16" cy="16" r="16" fill="#1ED760"/>
+          <path d="M9 13.5c4.8-1.4 10.4-1.1 14.8 1.4" stroke="#0B0F0C" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M9.5 17.3c4-1.1 8.6-.8 12.3 1.2" stroke="#0B0F0C" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <path d="M10 21c3.2-.8 6.7-.6 9.6 1" stroke="#0B0F0C" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+        </svg>
+      </span>
+      <span class="logo-text">Wavelength</span>
+    </div>
+
+    <nav class="nav-main" aria-label="Main">
+      <a href="#" class="nav-item active" data-filter="all">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 3.3 3 10.5V21h6v-6.5h6V21h6V10.5z"/></svg>
+        <span>Home</span>
+      </a>
+      <a href="#" class="nav-item" id="nav-search-btn">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.5" y2="16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Search</span>
+      </a>
+    </nav>
+
+    <div class="nav-divider"></div>
+
+    <div class="sidebar-section-title">YOUR PLAYLISTS</div>
+
+    <nav class="nav-library" aria-label="Library">
+      <a href="#favorite-songs-section" class="nav-item playlist-nav-item" data-filter="favorites">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ff2d55"/></svg>
+        <span>❤️ Favorite Songs</span>
+      </a>
+
+      <a href="#soft-songs" class="nav-item playlist-nav-item" data-filter="soft">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4a1 1 0 0 0 1.25 1.25l1.79-.62C8.93 21.26 10.88 22 13 22c4.97 0 9-4.03 9-9 0-4.97-4.03-9-9-9z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <span>🌙 Soft &amp; Melodious</span>
+      </a>
+
+      <a href="#urdu-indian" class="nav-item playlist-nav-item" data-filter="urdu_indian">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="15" x2="21" y2="15" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>🇮🇳 Urdu &amp; Indian Hits</span>
+      </a>
+
+      <a href="#english-songs" class="nav-item playlist-nav-item" data-filter="english">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a14.5 14.5 0 0 0 0 18M12 3a14.5 14.5 0 0 1 0 18" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>🌎 English Essentials</span>
+      </a>
+
+      <label class="nav-item nav-add-song" title="Upload MP3s from your computer" style="cursor: pointer;">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Add Local Songs</span>
+        <input type="file" id="local-file-input" accept="audio/*" multiple style="display:none;">
+      </label>
+    </nav>
+
+    <a href="#" class="nav-item nav-settings">
+      <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.5-2-3.4-2.3.9a7.7 7.7 0 0 0-2.6-1.5L14 2.5h-4l-.5 2.5a7.7 7.7 0 0 0-2.6 1.5l-2.3-.9-2 3.4 2 1.5a7.6 7.6 0 0 0 0 3l-2 1.5 2 3.4 2.3-.9c.75.66 1.63 1.17 2.6 1.5l.5 2.5h4l.5-2.5a7.7 7.7 0 0 0 2.6-1.5l2.3.9 2-3.4-2-1.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      <span>Settings</span>
+    </a>
+  </aside>
+
+  <!-- ================= MAIN COLUMN ================= -->
+  <div class="main-column">
+
+    <!-- ============= TOP NAV ============= -->
+    <header class="topnav">
+      <div class="topnav-left">
+        <button class="round-btn" id="history-back-btn" aria-label="Go back">
+          <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="round-btn" id="history-forward-btn" aria-label="Go forward">
+          <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <div class="topnav-search">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.5" y2="16.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input type="text" id="search-input" placeholder="Search songs, artists, or playlists...">
+      </div>
+
+      <div class="topnav-right">
+        <button class="upgrade-btn">Explore Playlists</button>
+        <button class="profile-btn" aria-label="User profile">
+          <img src="https://i.pravatar.cc/64?img=12" alt="">
+        </button>
+      </div>
+    </header>
+
+    <!-- ============= SCROLLABLE CONTENT ============= -->
+    <main class="content">
+
+      <!-- PLAYLIST QUICK FILTER PILLS -->
+      <div class="filter-pills-bar">
+        <button class="filter-pill active" data-filter="all">All Songs (21)</button>
+        <button class="filter-pill" data-filter="favorites">❤️ Favorites</button>
+        <button class="filter-pill" data-filter="soft">🌙 Soft &amp; Melodious</button>
+        <button class="filter-pill" data-filter="urdu_indian">🇮🇳 Urdu &amp; Indian</button>
+        <button class="filter-pill" data-filter="english">🌎 English Hits</button>
+      </div>
+
+      <!-- HERO BANNER -->
+      <section class="hero">
+        <img class="hero-cover" src="pictures/iraaday.jpg" alt="Iraaday">
+        <div class="hero-info">
+          <span class="hero-eyebrow">Featured Urdu &amp; Soft Hit</span>
+          <h1 class="hero-title">Iraaday</h1>
+          <p class="hero-desc">Abdul Hannan &amp; Rawan Shah — Gentle acoustic melodies. Click the heart ❤️ on any song card to add to Favorites!</p>
+          <div class="hero-meta">
+            <span>21 Local Tracks Matched</span>
+            <span class="dot">•</span>
+            <span>Local Streaming Active</span>
+          </div>
+          <button class="play-btn-lg" id="hero-play-btn" aria-label="Play Iraaday"
+                  data-title="Iraaday"
+                  data-artist="Abdul Hannan & Rawan Shah"
+                  data-src="audio/Iraaday.mp3">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 0: FAVORITE SONGS ================= -->
+      <section class="row playlist-row" id="favorite-songs-section" data-category="favorites">
+        <div class="row-head">
+          <div class="row-title-group">
+            <h2>❤️ Your Favorite Songs</h2>
+            <span class="folder-badge" id="fav-count-badge">0 Songs</span>
+          </div>
+          <button class="play-section-btn" data-playlist="favorites">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            Play Favorites
+          </button>
+        </div>
+        <div class="card-grid" id="favorites-card-grid"></div>
+        <div class="empty-fav-message" id="empty-fav-message">
+          <p>No favorite songs yet! Click the heart icon ❤️ on any song card to save it to your Favorites playlist.</p>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 1: SOFT & MELODIOUS ================= -->
+      <section class="row playlist-row" id="soft-songs" data-category="soft">
+        <div class="row-head">
+          <div class="row-title-group">
+            <h2>🌙 Soft &amp; Melodious Songs</h2>
+            <span class="folder-badge">11 Soft Songs</span>
+          </div>
+          <button class="play-section-btn" data-playlist="soft">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            Play Soft Mix
+          </button>
+        </div>
+        <div class="card-grid">
+
+          <article class="card" data-title="Iraaday" data-artist="Abdul Hannan & Rawan Shah" data-src="audio/Iraaday.mp3" data-category="soft,urdu_indian">
+            <div class="card-art">
+              <img src="pictures/iraaday.jpg" alt="Iraaday">
+              <button class="card-fav-btn" aria-label="Favorite Iraaday"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Iraaday"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Iraaday</h3>
+            <p class="card-sub">Abdul Hannan &amp; Rawan Shah</p>
+          </article>
+
+          <article class="card" data-title="Bhool" data-artist="Bayaan" data-src="audio/Bhool.mp3" data-category="soft,urdu_indian">
+            <div class="card-art">
+              <img src="pictures/bhool.jpg" alt="Bhool">
+              <button class="card-fav-btn" aria-label="Favorite Bhool"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Bhool"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Bhool</h3>
+            <p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Din Dhalay" data-artist="Bayaan" data-src="audio/Din Dhalay.mp3" data-category="soft,urdu_indian">
+            <div class="card-art">
+              <img src="pictures/din dhalay.jpg" alt="Din Dhalay">
+              <button class="card-fav-btn" aria-label="Favorite Din Dhalay"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Din Dhalay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Din Dhalay</h3>
+            <p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Reflections" data-artist="The Neighbourhood" data-src="audio/Reflections.mp3" data-category="soft,english">
+            <div class="card-art">
+              <img src="pictures/Reflections.jpg" alt="Reflections">
+              <button class="card-fav-btn" aria-label="Favorite Reflections"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Reflections"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Reflections</h3>
+            <p class="card-sub">The Neighbourhood</p>
+          </article>
+
+          <article class="card" data-title="back to friends" data-artist="sombr" data-src="audio/back-to-friends.mp3" data-category="soft,english">
+            <div class="card-art">
+              <img src="pictures/back to friends.jpg" alt="back to friends">
+              <button class="card-fav-btn" aria-label="Favorite back to friends"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play back to friends"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">back to friends</h3>
+            <p class="card-sub">sombr</p>
+          </article>
+
+          <article class="card" data-title="Earrings" data-artist="Malcolm Todd" data-src="audio/Earrings.mp3" data-category="soft,english">
+            <div class="card-art">
+              <img src="pictures/Earrings.jpg" alt="Earrings">
+              <button class="card-fav-btn" aria-label="Favorite Earrings"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Earrings"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Earrings</h3>
+            <p class="card-sub">Malcolm Todd</p>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ================= SECTION 2: URDU & INDIAN SONGS ================= -->
+      <section class="row playlist-row" id="urdu-indian" data-category="urdu_indian">
+        <div class="row-head">
+          <div class="row-title-group">
+            <h2>🇮🇳 Urdu &amp; Indian Hits</h2>
+            <span class="folder-badge">11 Tracks</span>
+          </div>
+          <button class="play-section-btn" data-playlist="urdu_indian">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            Play Urdu/Indian Mix
+          </button>
+        </div>
+        <div class="card-grid">
+
+          <article class="card" data-title="Teri Tasveer" data-artist="Bayaan" data-src="audio/Teri Tasveer.mp3" data-category="urdu_indian,soft">
+            <div class="card-art">
+              <img src="pictures/teri tasveer.jpg" alt="Teri Tasveer">
+              <button class="card-fav-btn" aria-label="Favorite Teri Tasveer"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Teri Tasveer"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Teri Tasveer</h3>
+            <p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Hum" data-artist="Bayaan" data-src="audio/Hum.mp3" data-category="urdu_indian,soft">
+            <div class="card-art">
+              <img src="pictures/Hum.jpg" alt="Hum">
+              <button class="card-fav-btn" aria-label="Favorite Hum"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Hum"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Hum</h3>
+            <p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Mere Musafir" data-artist="Bayaan" data-src="audio/Mere Musafir.mp3" data-category="urdu_indian,soft">
+            <div class="card-art">
+              <img src="pictures/mere musafir.jpg" alt="Mere Musafir">
+              <button class="card-fav-btn" aria-label="Favorite Mere Musafir"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Mere Musafir"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Mere Musafir</h3>
+            <p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Maand" data-artist="Bayaan" data-src="audio/Maand.mp3" data-category="urdu_indian,soft">
+            <div class="card-art">
+              <img src="pictures/maand.jpg" alt="Maand">
+              <button class="card-fav-btn" aria-label="Favorite Maand"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Maand"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Maand</h3>
+            <p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Kahan Jaon" data-artist="Bayaan" data-src="audio/Kahan Jaon.mp3" data-category="urdu_indian,soft">
+            <div class="card-art">
+              <img src="pictures/kahaan jaon.jpg" alt="Kahan Jaon">
+              <button class="card-fav-btn" aria-label="Favorite Kahan Jaon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Kahan Jaon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Kahan Jaon</h3>
+            <p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Chammak Challo" data-artist="Akon & Hamsika Iyer" data-src="audio/Chammak Challo.mp3" data-category="urdu_indian,party">
+            <div class="card-art">
+              <img src="pictures/chammak challo.jpg" alt="Chammak Challo">
+              <button class="card-fav-btn" aria-label="Favorite Chammak Challo"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Chammak Challo"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Chammak Challo</h3>
+            <p class="card-sub">Akon &amp; Hamsika Iyer</p>
+          </article>
+
+          <article class="card" data-title="Baby Doll" data-artist="Meet Bros ft. Kanika Kapoor" data-src="audio/Baby Doll.mp3" data-category="urdu_indian,party">
+            <div class="card-art">
+              <img src="pictures/baby doll.jpg" alt="Baby Doll">
+              <button class="card-fav-btn" aria-label="Favorite Baby Doll"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Baby Doll"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Baby Doll</h3>
+            <p class="card-sub">Meet Bros ft. Kanika Kapoor</p>
+          </article>
+
+          <article class="card" data-title="Party On My Mind" data-artist="KK, Shefali & Yo Yo Honey Singh" data-src="audio/Party On My Mind.mp3" data-category="urdu_indian,party">
+            <div class="card-art">
+              <img src="pictures/party on my mind.jpg" alt="Party On My Mind">
+              <button class="card-fav-btn" aria-label="Favorite Party On My Mind"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Party On My Mind"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Party On My Mind</h3>
+            <p class="card-sub">KK, Shefali &amp; Yo Yo Honey Singh</p>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ================= SECTION 3: ENGLISH SONGS ================= -->
+      <section class="row playlist-row" id="english-songs" data-category="english">
+        <div class="row-head">
+          <div class="row-title-group">
+            <h2>🌎 English Essentials</h2>
+            <span class="folder-badge">10 Tracks</span>
+          </div>
+          <button class="play-section-btn" data-playlist="english">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            Play English Mix
+          </button>
+        </div>
+        <div class="card-grid">
+
+          <article class="card" data-title="505" data-artist="Arctic Monkeys" data-src="audio/505.mp3" data-category="english,soft">
+            <div class="card-art">
+              <img src="pictures/505.jpg" alt="505">
+              <button class="card-fav-btn" aria-label="Favorite 505"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play 505"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">505</h3>
+            <p class="card-sub">Arctic Monkeys</p>
+          </article>
+
+          <article class="card" data-title="Starboy" data-artist="The Weeknd ft. Daft Punk" data-src="audio/Starboy.mp3" data-category="english,party">
+            <div class="card-art">
+              <img src="pictures/starboy.jpg" alt="Starboy">
+              <button class="card-fav-btn" aria-label="Favorite Starboy"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Starboy"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Starboy</h3>
+            <p class="card-sub">The Weeknd ft. Daft Punk</p>
+          </article>
+
+          <article class="card" data-title="Moth To A Flame" data-artist="Swedish House Mafia & The Weeknd" data-src="audio/Moth To A Flame.mp3" data-category="english,party">
+            <div class="card-art">
+              <img src="pictures/Moth to a Flame.jpg" alt="Moth To A Flame">
+              <button class="card-fav-btn" aria-label="Favorite Moth To A Flame"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Moth To A Flame"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Moth To A Flame</h3>
+            <p class="card-sub">Swedish House Mafia &amp; The Weeknd</p>
+          </article>
+
+          <article class="card" data-title="Flashing Lights" data-artist="Kanye West ft. Dwele" data-src="audio/Flashing Lights.mp3" data-category="english,party">
+            <div class="card-art">
+              <img src="pictures/flashing lights.jpg" alt="Flashing Lights">
+              <button class="card-fav-btn" aria-label="Favorite Flashing Lights"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Flashing Lights"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Flashing Lights</h3>
+            <p class="card-sub">Kanye West ft. Dwele</p>
+          </article>
+
+          <article class="card" data-title="Boyfriend" data-artist="Ariana Grande & Social House" data-src="audio/boyfriend.mp3" data-category="english,soft">
+            <div class="card-art">
+              <img src="pictures/boyfriend.jpg" alt="Boyfriend">
+              <button class="card-fav-btn" aria-label="Favorite Boyfriend"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Boyfriend"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Boyfriend</h3>
+            <p class="card-sub">Ariana Grande &amp; Social House</p>
+          </article>
+
+          <article class="card" data-title="Stayin' Alive" data-artist="Bee Gees" data-src="audio/stayin' alive.mp3" data-category="english,party">
+            <div class="card-art">
+              <img src="pictures/stayin alive.jpg" alt="Stayin' Alive">
+              <button class="card-fav-btn" aria-label="Favorite Stayin' Alive"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play Stayin' Alive"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">Stayin' Alive</h3>
+            <p class="card-sub">Bee Gees</p>
+          </article>
+
+          <article class="card" data-title="We Are The People" data-artist="Empire of the Sun" data-src="audio/We are the people.mp3" data-category="english">
+            <div class="card-art">
+              <img src="pictures/we are the people.jpg" alt="We Are The People">
+              <button class="card-fav-btn" aria-label="Favorite We Are The People"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+              <button class="card-play" aria-label="Play We Are The People"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+            </div>
+            <h3 class="card-title">We Are The People</h3>
+            <p class="card-sub">Empire of the Sun</p>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ================= SECTION 4: ALL 21 AUDIO FOLDER TRACKS ================= -->
+      <section class="row playlist-row" id="all-folder-songs" data-category="all">
+        <div class="row-head">
+          <div class="row-title-group">
+            <h2>🎵 All Folder Songs</h2>
+            <span class="folder-badge">21 Total Tracks</span>
+          </div>
+          <button class="play-section-btn" data-playlist="all">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            Play All Songs
+          </button>
+        </div>
+        <div class="card-grid">
+
+          <article class="card" data-title="505" data-artist="Arctic Monkeys" data-src="audio/505.mp3">
+            <div class="card-art"><img src="pictures/505.jpg" alt="505"><button class="card-fav-btn" aria-label="Favorite 505"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play 505"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">505</h3><p class="card-sub">Arctic Monkeys</p>
+          </article>
+
+          <article class="card" data-title="Baby Doll" data-artist="Meet Bros ft. Kanika Kapoor" data-src="audio/Baby Doll.mp3">
+            <div class="card-art"><img src="pictures/baby doll.jpg" alt="Baby Doll"><button class="card-fav-btn" aria-label="Favorite Baby Doll"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Baby Doll"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Baby Doll</h3><p class="card-sub">Meet Bros ft. Kanika Kapoor</p>
+          </article>
+
+          <article class="card" data-title="Bhool" data-artist="Bayaan" data-src="audio/Bhool.mp3">
+            <div class="card-art"><img src="pictures/bhool.jpg" alt="Bhool"><button class="card-fav-btn" aria-label="Favorite Bhool"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Bhool"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Bhool</h3><p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Chammak Challo" data-artist="Akon & Hamsika Iyer" data-src="audio/Chammak Challo.mp3">
+            <div class="card-art"><img src="pictures/chammak challo.jpg" alt="Chammak Challo"><button class="card-fav-btn" aria-label="Favorite Chammak Challo"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Chammak Challo"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Chammak Challo</h3><p class="card-sub">Akon &amp; Hamsika Iyer</p>
+          </article>
+
+          <article class="card" data-title="Din Dhalay" data-artist="Bayaan" data-src="audio/Din Dhalay.mp3">
+            <div class="card-art"><img src="pictures/din dhalay.jpg" alt="Din Dhalay"><button class="card-fav-btn" aria-label="Favorite Din Dhalay"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Din Dhalay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Din Dhalay</h3><p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Earrings" data-artist="Malcolm Todd" data-src="audio/Earrings.mp3">
+            <div class="card-art"><img src="pictures/Earrings.jpg" alt="Earrings"><button class="card-fav-btn" aria-label="Favorite Earrings"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Earrings"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Earrings</h3><p class="card-sub">Malcolm Todd</p>
+          </article>
+
+          <article class="card" data-title="Flashing Lights" data-artist="Kanye West ft. Dwele" data-src="audio/Flashing Lights.mp3">
+            <div class="card-art"><img src="pictures/flashing lights.jpg" alt="Flashing Lights"><button class="card-fav-btn" aria-label="Favorite Flashing Lights"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Flashing Lights"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Flashing Lights</h3><p class="card-sub">Kanye West ft. Dwele</p>
+          </article>
+
+          <article class="card" data-title="Hum" data-artist="Bayaan" data-src="audio/Hum.mp3">
+            <div class="card-art"><img src="pictures/Hum.jpg" alt="Hum"><button class="card-fav-btn" aria-label="Favorite Hum"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Hum"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Hum</h3><p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Iraaday" data-artist="Abdul Hannan & Rawan Shah" data-src="audio/Iraaday.mp3">
+            <div class="card-art"><img src="pictures/iraaday.jpg" alt="Iraaday"><button class="card-fav-btn" aria-label="Favorite Iraaday"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Iraaday"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Iraaday</h3><p class="card-sub">Abdul Hannan &amp; Rawan Shah</p>
+          </article>
+
+          <article class="card" data-title="Kahan Jaon" data-artist="Bayaan" data-src="audio/Kahan Jaon.mp3">
+            <div class="card-art"><img src="pictures/kahaan jaon.jpg" alt="Kahan Jaon"><button class="card-fav-btn" aria-label="Favorite Kahan Jaon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Kahan Jaon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Kahan Jaon</h3><p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Maand" data-artist="Bayaan" data-src="audio/Maand.mp3">
+            <div class="card-art"><img src="pictures/maand.jpg" alt="Maand"><button class="card-fav-btn" aria-label="Favorite Maand"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Maand"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Maand</h3><p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Mere Musafir" data-artist="Bayaan" data-src="audio/Mere Musafir.mp3">
+            <div class="card-art"><img src="pictures/mere musafir.jpg" alt="Mere Musafir"><button class="card-fav-btn" aria-label="Favorite Mere Musafir"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Mere Musafir"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Mere Musafir</h3><p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="Moth To A Flame" data-artist="Swedish House Mafia & The Weeknd" data-src="audio/Moth To A Flame.mp3">
+            <div class="card-art"><img src="pictures/Moth to a Flame.jpg" alt="Moth To A Flame"><button class="card-fav-btn" aria-label="Favorite Moth To A Flame"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Moth To A Flame"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Moth To A Flame</h3><p class="card-sub">Swedish House Mafia &amp; The Weeknd</p>
+          </article>
+
+          <article class="card" data-title="Party On My Mind" data-artist="KK, Shefali & Yo Yo Honey Singh" data-src="audio/Party On My Mind.mp3">
+            <div class="card-art"><img src="pictures/party on my mind.jpg" alt="Party On My Mind"><button class="card-fav-btn" aria-label="Favorite Party On My Mind"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Party On My Mind"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Party On My Mind</h3><p class="card-sub">KK, Shefali &amp; Yo Yo Honey Singh</p>
+          </article>
+
+          <article class="card" data-title="Reflections" data-artist="The Neighbourhood" data-src="audio/Reflections.mp3">
+            <div class="card-art"><img src="pictures/Reflections.jpg" alt="Reflections"><button class="card-fav-btn" aria-label="Favorite Reflections"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Reflections"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Reflections</h3><p class="card-sub">The Neighbourhood</p>
+          </article>
+
+          <article class="card" data-title="Starboy" data-artist="The Weeknd ft. Daft Punk" data-src="audio/Starboy.mp3">
+            <div class="card-art"><img src="pictures/starboy.jpg" alt="Starboy"><button class="card-fav-btn" aria-label="Favorite Starboy"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Starboy"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Starboy</h3><p class="card-sub">The Weeknd ft. Daft Punk</p>
+          </article>
+
+          <article class="card" data-title="Teri Tasveer" data-artist="Bayaan" data-src="audio/Teri Tasveer.mp3">
+            <div class="card-art"><img src="pictures/teri tasveer.jpg" alt="Teri Tasveer"><button class="card-fav-btn" aria-label="Favorite Teri Tasveer"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Teri Tasveer"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Teri Tasveer</h3><p class="card-sub">Bayaan</p>
+          </article>
+
+          <article class="card" data-title="We Are The People" data-artist="Empire of the Sun" data-src="audio/We are the people.mp3">
+            <div class="card-art"><img src="pictures/we are the people.jpg" alt="We Are The People"><button class="card-fav-btn" aria-label="Favorite We Are The People"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play We Are The People"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">We Are The People</h3><p class="card-sub">Empire of the Sun</p>
+          </article>
+
+          <article class="card" data-title="back to friends" data-artist="sombr" data-src="audio/back-to-friends.mp3">
+            <div class="card-art"><img src="pictures/back to friends.jpg" alt="back to friends"><button class="card-fav-btn" aria-label="Favorite back to friends"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play back to friends"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">back to friends</h3><p class="card-sub">sombr</p>
+          </article>
+
+          <article class="card" data-title="Boyfriend" data-artist="Ariana Grande & Social House" data-src="audio/boyfriend.mp3">
+            <div class="card-art"><img src="pictures/boyfriend.jpg" alt="Boyfriend"><button class="card-fav-btn" aria-label="Favorite Boyfriend"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Boyfriend"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Boyfriend</h3><p class="card-sub">Ariana Grande &amp; Social House</p>
+          </article>
+
+          <article class="card" data-title="Stayin' Alive" data-artist="Bee Gees" data-src="audio/stayin' alive.mp3">
+            <div class="card-art"><img src="pictures/stayin alive.jpg" alt="Stayin' Alive"><button class="card-fav-btn" aria-label="Favorite Stayin' Alive"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button class="card-play" aria-label="Play Stayin' Alive"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button></div>
+            <h3 class="card-title">Stayin' Alive</h3><p class="card-sub">Bee Gees</p>
+          </article>
+
+        </div>
+      </section>
+
+      <footer class="content-footer">
+        <p>Wavelength Spotify Clone — Local Audio Player with Favorites &amp; Custom Playlists</p>
+      </footer>
+
+    </main>
+  </div>
+</div>
+
+<!-- ================= BOTTOM PLAYER ================= -->
+<footer class="player">
+
+  <div class="player-track">
+    <img src="pictures/iraaday.jpg" alt="" class="player-cover" id="player-cover">
+    <div class="player-track-info">
+      <div class="player-title-row">
+        <span class="player-title" id="player-title">Iraaday</span>
+        <div class="equalizer-bar" id="equalizer-bar" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <span class="player-artist" id="player-artist">Abdul Hannan &amp; Rawan Shah</span>
+    </div>
+    <button class="like-btn" id="like-btn" aria-label="Like song">
+      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+    </button>
+  </div>
+
+  <div class="player-center">
+    <div class="player-controls">
+      <button class="ctrl-btn" id="shuffle-btn" aria-label="Shuffle" title="Toggle Shuffle">
+        <svg viewBox="0 0 24 24"><path d="M4 6h3.5L16 18h4M4 18h3.5L11 13M16 6h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 3l3 3-3 3M17 15l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="ctrl-btn" id="prev-btn" aria-label="Previous Track" title="Previous Track (Shift+Left)">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M19 5v14L8 12z" fill="currentColor"/><rect x="5" y="5" width="2" height="14" fill="currentColor"/></svg>
+      </button>
+      <button class="play-pause-btn" id="play-pause-btn" aria-label="Play/Pause" title="Play/Pause (Space)">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button class="ctrl-btn" id="next-btn" aria-label="Next Track" title="Next Track (Shift+Right)">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M5 5v14l11-7z" fill="currentColor"/><rect x="17" y="5" width="2" height="14" fill="currentColor"/></svg>
+      </button>
+      <button class="ctrl-btn" id="repeat-btn" aria-label="Repeat" title="Toggle Repeat Mode">
+        <svg viewBox="0 0 24 24"><path d="M4 7h13a3 3 0 0 1 3 3v2M20 17H7a3 3 0 0 1-3-3v-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 4 4 7l3 3M17 20l3-3-3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="player-timeline">
+      <span class="time current" id="current-time">0:00</span>
+      <input type="range" class="seek-slider" id="seek-slider" min="0" max="100" value="0" aria-label="Seek">
+      <span class="time duration" id="duration-time">0:00</span>
+    </div>
+  </div>
+
+  <div class="player-extra">
+    <button class="ctrl-btn" id="queue-btn" aria-label="Queue" title="View Queue">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="15" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="3" y1="12" x2="15" y2="12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="3" y1="18" x2="10" y2="18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M19 9v11M19 9l-3 3M19 9l3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="ctrl-btn mute-btn" id="mute-btn" aria-label="Mute" title="Mute/Unmute">
+      <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="70" aria-label="Volume">
+  </div>
+
+</footer>
+
+<!-- Hidden audio engine used by script.js -->
+<audio id="audio-player" preload="metadata"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
